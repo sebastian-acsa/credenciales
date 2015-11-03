@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<form action="upload.php" method="post" enctype="multipart/form-data">
+	<table>
+    <tr>
+    
+    <td>Nombre:</td>
+    <td><input type="text" name="nombre" id="nombre"></td>
+    </tr>
+    <tr>
+    <td>puesto:</td>
+    <td><input type="text" name="puesto" id="puesto"></td>
+    </tr>
+        <td>telefono de emergencias:</td>
+        <td><input type="text" name="tel_eme" id="tel_eme"></td>
+    </tr>
+    <tr>
+        <td>Tipo de sangre:</td>
+        <td><input type="text" name="t_sangre" id="t_sangre"></td>
+    </tr>
+    <tr>
+    	<td>Adicional 1:</td>
+    	<td><input type="text" name="extra1" id="extra1"></td>
+    </tr>
+    <tr>
+    	<td>Foto:</td>
+    	<td><input type="file" name="fileToUpload" id="fileToUpload"></td>
+    </tr>
+    </table>
+    <input type="submit" value="Enviar" name="submit">
+</form>
+
+</body>
+</html>
