@@ -21,11 +21,24 @@
  //codigo para consultarla y enviar mensajes de depuración cuando la variable
  //sea TRUE
  //---
- $Usuario="";  //Usuario para conectarse a MySql
+error_reporting(E_ALL ^ E_DEPRECATED);
+//local
+/* 
+ $Usuario="sebastian2";  //Usuario para conectarse a MySql
  $Password="";
- $Servidor=""; //Nombre del servidor
- $BaseDeDatos=""; //Nombre de la Base de datos
- $DebuggingMode = FALSE;//FALSE no muestra las acciones importantes // TRUE proporciona informacion de las acciones
+ $Servidor="localhost"; //Nombre del servidor
+ $BaseDeDatos="cred_sys"; //Nombre de la Base de datos
+ $DebuggingMode = False;//FALSE no muestra las acciones importantes // TRUE proporciona informacion de las acciones
+*/
+//test
+ $Usuario="u838307084_cred";  //Usuario para conectarse a MySql
+ $Password="qwerty";
+ $Servidor="mysql.hostinger.mx"; //Nombre del servidor
+ $BaseDeDatos="u838307084_cred"; //Nombre de la Base de datos
+ $DebuggingMode = false;//FALSE no muestra las acciones importantes // TRUE proporciona informacion de las acciones
+//
+ 
+
 //Abre una conexion
 $conexion = sisBibAbreConexion();
 //Funciones mysql
@@ -37,12 +50,10 @@ $conexion = sisBibAbreConexion();
      GLOBAL $BaseDeDatos;
      GLOBAL $DebuggingMode;
      GLOBAL $programa;
-     $conexionBD =mysql_connect($Servidor,$Usuario,$Password)
-      Or die(
+     $conexionBD =mysql_connect($Servidor,$Usuario,$Password) or die(
       "<p>======================================================================================</p>"
     . "<p>ABORTA Modulo: sisBibAbreConexion -- Error al conectarse al servidor de Base de Datos</p>"
     . "<p> La funcion fue utilizada en el modulo (". $programa . ")</p>"
-    . "<p> Codigo de error " . mysql_connect_errno(). ": " . mysql_connect_error() . "</p>"
     . "<p> Datos de conexion al servidor "
     . " </p><p>Servidor:(" . $Servidor
     . ")</p><p> Usuario:(" . $Usuario
@@ -68,7 +79,7 @@ $conexion = sisBibAbreConexion();
       "<p>======================================================================================</p>"
     . "<p>ABORTA Modulo: sisBibAbreConexion -- Error al seleccionar la Base de Datos</p>"
     . "<p> La funcion fue utilizada en el modulo (". $programa . ")</p>"
-    . "<p> Codigo de error " . mysql_connect_errno(). ": " . mysql_connect_error() . "</p>"
+    //. "<p> Codigo de error " . mysql_connect_errno(). ": " . mysql_connect_error() . "</p>"
     . "<p> Datos de conexion al servidor "
     . " </p><p>Servidor:(" . $Servidor
     . ")</p><p> Usuario:(" . $Usuario
@@ -132,6 +143,7 @@ $conexion = sisBibAbreConexion();
        return $resultado;
       //Termina sisBibEjecutaSql
     }
+  /*  
   function sisBibSelectOne($nomTabla,
   		$valorCampo,  //campo pasado por referencia
   		$valorLlave)
@@ -330,6 +342,7 @@ $conexion = sisBibAbreConexion();
         return $resultado;
         //Termina sisBibDelete
         }
+    
    function sisBibUpdate($nomTabla,
 		$nombreCampo,
 		$valorCampo)
@@ -382,6 +395,76 @@ $conexion = sisBibAbreConexion();
         $instruccionesSql = $query;
         $resultado = sisBibEjecutaSql($instruccionesSql)
    	    Or die(
+           "<p>======================================================================================</p>"
+           ."<p>ABORTA Modulo sisBibUpdate -- Error al ejecutar SQL</p>"
+           ."<p>(".$instruccionesSql.")</p>"
+           . "<p> La funcion fue utilizada en el modulo (". $prog . ")</p>"
+           . "<p> Codigo de error " . mysql_errno($conexion). ": " . mysql_error($conexion) . "</p>"
+           . "<p> Datos de conexion al servidor "
+           . " </p><p>Servidor:(" . $Servidor
+           . ")</p><p> Usuario:(" . $Usuario
+           . ")</p><p> Password:(".$Password
+           . ")</p><p> Base de Datos:(" . $BaseDeDatos
+           . ")</p>"
+           ."<p>======================================================================================</p>") ;
+       $programa = $prog;
+       if ($DebuggingMode)
+          {
+          echo "<p>======================================================================================</p>"
+          . "<p>Modulo sisBibUpdate envia el siguiente mensaje -- </p>"
+          . "<p> Se ejecuto el siguiente SQL con exito (".$instruccionesSql.")</p>"
+          . "<p> La función fue utilizada en el modulo (". $prog . ")</p>"
+          . "  <p> Datos de conexion al servidor "
+          . " </p><p>Servidor:(" . $Servidor
+          . ")</p><p> Usuario:(" . $Usuario
+          . ")</p><p> Password:(". $Password
+          . ")</p><p> Base de Datos:(" . $BaseDeDatos
+          . ")</p>"
+          ."<p>======================================================================================</p>" ;
+          }
+        return $resultado;
+        //Termina el SisBibUpdate
+      }
+     */
+
+      function sisBibUpdate($nomTabla,
+    $nombreCampo,
+    $valorCampo,$id)
+   {
+       GLOBAL $Usuario;
+       GLOBAL $Password;
+       GLOBAL $Servidor;
+       GLOBAL $BaseDeDatos;
+       GLOBAL $DebuggingMode;
+       GLOBAL $conexion;
+       GLOBAL $programa;
+        $i=0;
+    $n = count($nombreCampo);
+    $query = "UPDATE " . $nomTabla . " SET ";
+    if ($n>1)
+      {for ($i=0;$i<$n-1 ; $i++)
+          {$query .= " " . trim($nombreCampo[$i]) . " = '" .
+                  trim($valorCampo[$i]) . " ', ";
+          }
+            $query .= " " . trim($nombreCampo[$i]) . " = '" .
+                      trim($valorCampo[$i]) . " ' ";
+
+            }
+    else
+      {$query .= " " . trim($nombreCampo[0]) . " = '" .
+                    trim($valorCampo[0]) . " ' ";
+
+       }
+       $query=$query. " WHERE id=".$id ;
+       
+  
+
+        //$query = $query . $condicion;
+        $prog = $programa;
+        $programa = "sisBibUpdate";
+        $instruccionesSql = $query;
+        $resultado = sisBibEjecutaSql($instruccionesSql)
+        Or die(
            "<p>======================================================================================</p>"
            ."<p>ABORTA Modulo sisBibUpdate -- Error al ejecutar SQL</p>"
            ."<p>(".$instruccionesSql.")</p>"
@@ -470,6 +553,7 @@ $conexion = sisBibAbreConexion();
         return $resultado;
         //Termina el SisBibInsert
     }
+    /*
   function sisBibCargaNombres($tabla,
   $nombres,  //campo pasado por referencia
   $numLlaves, //campo pasado por referencia
@@ -572,7 +656,7 @@ $conexion = sisBibAbreConexion();
        }
    }
 
-
+    */
 
   function sisBibCargaEtiquetas($tabla,
   $etiquetas,  //campo pasado por referencia

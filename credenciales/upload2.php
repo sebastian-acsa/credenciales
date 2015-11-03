@@ -52,13 +52,12 @@ if ($uploadOk == 0) {
 	$nombreCampo=array("nombre","folio","puesto","imss","tel_eme","t_sangre","alergia","foto");
 	$valorCampo=array($_POST['nombre'],$_POST['folio'],$_POST['puesto'],$_POST['imss'],$_POST['tel_eme'],$_POST['t_sangre'],$_POST['alergia'],$target_file);
 	
-	//genero y ejecuto el insert.
-
-    sisBibInsert("usuarios",$nombreCampo,$valorCampo,8);//($tabla, $nombreCampo,$valorCampo,$numCampos)
-	//sisBibEjecutaSql($query);
+	//aqui hago el update
+	function sisBibUpdate($nomTabla,
+    $nombreCampo,
+    $valorCampo,$_POST['id']);
 	
-	
-	header("Location: ./add.html");
+	header("Location: ./index.php");
 
 	
 ?>
